@@ -34,8 +34,10 @@ describe('Search results', () => {
         cy.wait('@searchRequest').then((interception) => {
             expect(interception.response.body).to.not.be.empty
             expect(interception.response.statusCode).to.eq(200)
-})
+        })
 
-    
+        //verifying if the results have Paris in their adress
+        cy.get("[data-testid='address']").contains("Paris")
+        
     })
 })
