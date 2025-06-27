@@ -11,3 +11,11 @@ module.exports = defineConfig({
   video: true,
   videoUploadOnPasses: true,
 });
+
+
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: 'https://www.booking.com/',
+  }
+});

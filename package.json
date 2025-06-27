@@ -17,5 +17,8 @@
     "cypress-xpath": "^2.0.1"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "cypress-real-events": "^1.14.0"
+  }
 }
