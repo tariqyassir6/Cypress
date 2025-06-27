@@ -1,6 +1,7 @@
-import {selectDate} from '../support/utils'
-import {selectGuests} from '../support/utils'
-import {searchCity} from '../support/utils'
+import {selectDate} from '../utils/DateSelect'
+import {selectGuests} from '../utils/SelectGuests'
+import {searchCity} from '../utils/CitySearch.js'
+
 
 
 
@@ -11,7 +12,7 @@ describe('Search results', () => {
 
     it('Results page loads', () => {
 
-        cy.visit("https://www.booking.com/")
+        cy.visit("/")
 
         
         searchCity("Paris")
