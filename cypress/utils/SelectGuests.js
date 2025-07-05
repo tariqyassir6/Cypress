@@ -1,34 +1,3 @@
-
-export function selectDate(date) {
-        const [year, month, day] = date.split('-'); // "2025-06-25"
-        const monthNames = [
-             'January', 'February', 'March', 'April', 'May', 'June',
-              'July', 'August', 'September', 'October', 'November', 'December'
-        ];
-        const monthName = monthNames[parseInt(month, 10) - 1]; // convert "06" to "June"
-
-         // Open the calendar
-         cy.get("[data-testid='searchbox-dates-container']").click()
-
-         // Function to recursively navigate to the correct month
-         function goToMonth() {
-            cy.get("[aria-live='polite']").first().then(($header) => {
-            if (!$header.text().includes(monthName)) {
-            cy.get("[aria-label='Next month']").click()
-            goToMonth() // Recurse until month is visible
-             }
-            })
-            }
-
-            goToMonth()
-
-        // After reaching the correct month, select the day
-        cy.get(`span[data-date="${date}"]`).click()
-    }
-
-
-
-//========================================================================================================================================
 export function selectGuests({adults = 1  , kids = 0 , kidAges = [] , rooms = 1 }) {
     //clicking on the gests selector
     cy.get("[data-testid='occupancy-config']").click()
@@ -86,24 +55,3 @@ export function selectGuests({adults = 1  , kids = 0 , kidAges = [] , rooms = 1 
 
 
 }
-
-
-
-//========================================================================================================================================
-export function searchCity(city) {
-
-    cy.get("input[id=':rh:']").type(city)
-    //wait to close pop up
-    cy.wait(3000)
-        cy.get('body').then($body => {
-        const selector = '.b779265b5e > .e1e158e66b > .de576f5064';
-
-        if ($body.find(selector).length > 0) {
-            cy.get(selector).click();
-        } else {
-            cy.log('Popup not found, skipping close.');
-         }
-            })
-
-}
-
