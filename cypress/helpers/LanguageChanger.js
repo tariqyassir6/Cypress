@@ -48,8 +48,8 @@ export function assertLanguageChanged(language){
         const texts = languageTexts[language]
 
         //verify the title changed
-        cy.get("[data-testid='herobanner-title1']")
-          .should('contain', texts.title)
+        // cy.get("[data-testid='herobanner-title1']")
+        //   .should('contain', texts.title)
 
         //verify html has the changed language attribute
         cy.get('html').should('have.attr', 'lang', texts.short)

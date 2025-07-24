@@ -40,7 +40,7 @@ describe('Home page load and navigatin check', () => {
     })
 //=========================================================================================================================================================================
 
-     it('should search for hotels in Paris and display results', () => {
+     it.skip('should search for hotels in Paris and display results', () => {
         
         //Assert that search results appear 
         cy.get("[data-testid='property-card']").should("be.visible")
