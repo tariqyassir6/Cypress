@@ -7,7 +7,9 @@ export function selectDate(date) {
         const monthName = monthNames[parseInt(month, 10) - 1]; // convert "06" to "June"
 
          // Open the calendar
-         cy.get("[data-testid='searchbox-dates-container']").click()
+         cy.get("[data-testid='searchbox-dates-container']").click({ force: true })
+
+         cy.get("[aria-live='polite']" ,{ timeout: 10000 }).should('be.visible')
 
          // Function to recursively navigate to the correct month
          function goToMonth() {
@@ -24,3 +26,10 @@ export function selectDate(date) {
         // After reaching the correct month, select the day
         cy.get(`span[data-date="${date}"]`).click()
     }
+
+
+
+
+
+
+   
