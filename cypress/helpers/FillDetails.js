@@ -9,12 +9,5 @@ export function fillForm(){
     cy.get("[data-testid='user-details-cc1']").select("France")
     cy.get("[data-testid='phone-number-input']").type("666666666")
     cy.get("[name='book']").click()
-   
-    
    })
-    
-   
-    
-
-
 }

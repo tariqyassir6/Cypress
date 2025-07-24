@@ -1,6 +1,6 @@
-import {selectDate} from '../utils/DateSelect'
-import {selectGuests} from '../utils/SelectGuests'
-import {searchCity} from '../utils/CitySearch.js'
+import {selectDate} from '../helpers/DateSelect'
+import {selectGuests} from '../helpers/SelectGuests'
+import {searchCity} from '../helpers/CitySearch.js'
 
 
 
@@ -17,8 +17,8 @@ describe('Search results', () => {
         
         searchCity("Paris")
         
-        selectDate("2025-07-01")
-        selectDate("2025-07-03")
+        selectDate("2025-08-01")
+        selectDate("2025-08-03")
         
         
         selectGuests( {adults : 4 , kids : 3 , kidAges : [3,4,5] , rooms : 2})

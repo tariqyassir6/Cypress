@@ -1,4 +1,5 @@
-import {selectDate} from '../support/utils'
+import {selectDate} from '../helpers/DateSelect'
+
 
 
 
@@ -8,7 +9,7 @@ describe('Home page load and navigatin check', () => {
 
     beforeEach('should apply a filter and update results', () => {
 
-        cy.visit("https://www.booking.com/")
+        cy.visit("/")
 
         //Type “Paris” in the destination field.
         cy.get("input[id=':rh:']").type("Paris")
