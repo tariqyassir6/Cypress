@@ -17,8 +17,8 @@ module.exports = defineConfig({
 module.exports = defineConfig({
   e2e: {
     baseUrl: 'https://www.booking.com/',
-    viewportWidth: 1280,
-    viewportHeight: 800,
+    viewportWidth: 1920,
+    viewportHeight: 1080,
   }
 })
 

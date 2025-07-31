@@ -18,8 +18,8 @@ describe('Flow testing', () => {
         
         searchCity("Paris")
         
-        selectDate("2025-08-01")
-        selectDate("2025-08-03")
+        selectDate("2025-10-01")
+        selectDate("2025-10-03")
         
         
         selectGuests( {adults : 4 , kids : 1 , kidAges : [3] , rooms : 2})
