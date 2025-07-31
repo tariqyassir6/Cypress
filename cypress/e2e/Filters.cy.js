@@ -24,7 +24,7 @@ describe('Search results', () => {
         selectGuests( {adults : 4 , kids : 1 , kidAges : [3] , rooms : 2})
 
 
-        cy.get("button[type='submit']").click()
+        cy.get("button[type='submit']").should("be.visible").click()
 
 
         applyFilter("Hotels")

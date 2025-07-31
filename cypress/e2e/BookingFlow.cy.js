@@ -25,7 +25,7 @@ describe('Flow testing', () => {
         selectGuests( {adults : 4 , kids : 1 , kidAges : [3] , rooms : 2})
 
 
-        cy.get("button[type='submit']").click()
+        cy.get("button[type='submit']").should("be.visible").click()
 
 
         //choosing the first hotel

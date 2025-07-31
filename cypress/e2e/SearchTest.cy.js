@@ -27,7 +27,7 @@ describe('Search results', () => {
         cy.intercept('GET', '**/searchresults*').as('searchRequest')
 
         //click on the search button
-        cy.get("button[type='submit']").click()
+        cy.get("button[type='submit']").should("be.visible").click()
 
 
         //check if the body is not empty and the satus code is equal to 200

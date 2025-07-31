@@ -1,30 +1,3 @@
-// export function fillForm(){
-//    cy.origin("https://secure.booking.com" ,()=>{
-
-//     cy.get("[data-testid='user-details-firstname']").type("First")
-
-//     cy.get("[data-testid='user-details-lastname']").type("Last")
-
-//     cy.get("[data-testid='user-details-email']").type("firstlast@email.com")
-
-//     cy.get("[data-testid='user-details-address1']").type("City in a country")
-
-//     cy.get("[data-testid='user-details-city']").type("City")
-
-//     cy.get("[data-testid='user-details-zip']").type("123456")
-
-//     cy.get("[data-testid='user-details-cc1']").select("France")
-
-//     cy.get("[data-testid='phone-number-input']").type("666666666")
-
-//     cy.get("[name='book']").click()
-//    })
-// }
-
-
-
-
-
 export function fillForm() {
   cy.origin("https://secure.booking.com", () => {
 
@@ -38,21 +11,31 @@ export function fillForm() {
       { selector: "[data-testid='phone-number-input']", value: "666666666" }
     ]
 
+    
     formFields.forEach(({ selector, value }) => {
       cy.get('body').then(($body) => {
         const element = $body.find(selector);
         if (element.length > 0 && element.is(':visible')) {
-          cy.wrap(element).type(value);
-        } else {
-          cy.log(`Skipping field: ${selector} (not visible)`);
-        }
-      });
-    });
+          cy.wrap(element).clear().type(value, { delay: 50 });
+        } 
+      })
+    })
 
-   cy.get("[data-testid='user-details-cc1']").select("France")
-
-   cy.get("[name='book']").click()
     
+    cy.get('body').then(($body) => {
+      const selectField = $body.find("[data-testid='user-details-cc1']");
+      if (selectField.length > 0 && selectField.is(':visible')) {
+        cy.wrap(selectField).select("France");
+      } 
+    })
 
-  });
+    
+    cy.get('body').then(($body) => {
+      const button = $body.find("[name='book']");
+      if (button.length > 0 && button.is(':visible')) {
+        cy.wrap(button).click();
+      } 
+    })
+
+  })
 }
