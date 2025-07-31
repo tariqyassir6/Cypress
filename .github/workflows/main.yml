@@ -1,15 +1,69 @@
 name: Cypress Tests
 
-on: push
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
 
 jobs:
   cypress-run:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chrome]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Cypress Tests
         uses: cypress-io/github-action@v6
-        
+        with:
+          browser: ${{ matrix.browser }}
+          headed: true
+          record: false
+          config: |
+            video=true,
+            screenshotsFolder=cypress/screenshots,
+            viewportWidth=1366,
+            viewportHeight=768
+        env:
+          CYPRESS_baseUrl: https://your-test-site.com
+          CYPRESS_USERNAME: ${{ secrets.CYPRESS_USERNAME }}
+          CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+
+      - name: Upload Cypress Videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
+      - name: Upload Cypress Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
