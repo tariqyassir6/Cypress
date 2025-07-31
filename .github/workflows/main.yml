@@ -50,7 +50,7 @@ jobs:
             viewportWidth=1366,
             viewportHeight=768
         env:
-          CYPRESS_baseUrl: https://your-test-site.com
+          CYPRESS_baseUrl: https://www.booking.com/
           CYPRESS_USERNAME: ${{ secrets.CYPRESS_USERNAME }}
           CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
 
