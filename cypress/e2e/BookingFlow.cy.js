@@ -1,54 +1,54 @@
-import {selectDate} from '../helpers/DateSelect'
-import {selectGuests} from '../helpers/SelectGuests'
-import {searchCity} from '../helpers/CitySearch.js'
-import { applyFilter } from '../helpers/ApplyFilter'
-import { fillForm } from '../helpers/FillDetails'
-
-
-
-
+import { selectDate } from '../helpers/DateSelect';
+import { selectGuests } from '../helpers/SelectGuests';
+import { searchCity } from '../helpers/CitySearch.js';
+import { fillForm } from '../helpers/FillDetails';
 
 describe('Flow testing', () => {  
 
-
     it('Test Booking Flow Until Payment Page', () => {
 
-        cy.visit("/")
+        cy.visit("/");
 
+        // Search for city
+        searchCity("Paris");
         
-        searchCity("Paris")
+        // Select dates
+        selectDate("2025-10-01");
+        selectDate("2025-10-03");
         
-        selectDate("2025-10-01")
-        selectDate("2025-10-03")
-        
-        
-        selectGuests( {adults : 4 , kids : 1 , kidAges : [3] , rooms : 2})
+        // Select guests
+        selectGuests({ adults: 4, kids: 1, kidAges: [3], rooms: 2 });
 
+        // Wait for search button and click
+        cy.get("button[type='submit']")
+          .should("exist")
+          .should("be.visible")
+          .click();
 
-        cy.get("button[type='submit']").should("be.visible").click()
+        // Choosing the first hotel
+        cy.get("[data-testid='title-link']")
+          .eq(3)
+          .should("exist")
+          .invoke('removeAttr', 'target')
+          .click();
 
+        // Selecting number of rooms
+        cy.get("[data-testid='select-room-trigger']")
+          .first()
+          .should("be.visible")
+          .select("1");
 
-        //choosing the first hotel
-       
+        // Clicking reserve button
+        cy.contains("I'll reserve")
+          .invoke('removeAttr', 'target')
+          .click({ force: true });
 
-        cy.get("[data-testid='title-link']").eq(3).invoke('removeAttr', 'target').click();
+        // Filling the form
+        fillForm();
 
-        
-       //selecting number of rooms
-        cy.get("[data-testid='select-room-trigger']").first()
-          .select("1")
-
-
-        //clicking reserve
-        cy.contains("I'll reserve").invoke('removeAttr', 'target').click({force : true})
-          
-        
-
-        //filling the form
-        fillForm()
-
-        cy.origin("https://secure.booking.com" ,()=>{
-            cy.contains(" Complete booking ").should("be.visible")
-    })
-    })
-})
+        // Verify page loaded correctly
+        cy.origin("https://secure.booking.com", () => {
+            cy.contains(" Complete booking ").should("be.visible");
+        });
+    });
+});

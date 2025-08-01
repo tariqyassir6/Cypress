@@ -9,33 +9,35 @@ export function fillForm() {
       { selector: "[data-testid='user-details-city']", value: "City" },
       { selector: "[data-testid='user-details-zip']", value: "123456" },
       { selector: "[data-testid='phone-number-input']", value: "666666666" }
-    ]
+    ];
 
-    
     formFields.forEach(({ selector, value }) => {
-      cy.get('body').then(($body) => {
-        const element = $body.find(selector);
-        if (element.length > 0 && element.is(':visible')) {
-          cy.wrap(element).type(value, { delay: 50 });
-        } 
-      })
-    })
+      cy.get(selector, { timeout: 10000 })
+        .should('exist')
+        .should('be.visible')
+        .then(() => {
+          // Re-query to avoid stale element reference issues
+          cy.get(selector).as('inputField');
+          cy.get('@inputField').clear({ force: true });
+          cy.get('@inputField').type(value, { delay: 50, force: true });
+        });
+    });
 
-    
-    cy.get('body').then(($body) => {
-      const selectField = $body.find("[data-testid='user-details-cc1']");
-      if (selectField.length > 0 && selectField.is(':visible')) {
-        cy.wrap(selectField).select("France");
-      } 
-    })
+    // Handle dropdown
+    cy.get("[data-testid='user-details-cc1']", { timeout: 10000 })
+      .should('exist')
+      .should('be.visible')
+      .then(() => {
+        cy.get("[data-testid='user-details-cc1']").select("France", { force: true });
+      });
 
-    
-    cy.get('body').then(($body) => {
-      const button = $body.find("[name='book']");
-      if (button.length > 0 && button.is(':visible')) {
-        cy.wrap(button).click();
-      } 
-    })
+    // Click book button
+    cy.get("[name='book']", { timeout: 10000 })
+      .should('exist')
+      .should('be.visible')
+      .then(() => {
+        cy.get("[name='book']").click({ force: true });
+      });
 
-  })
+  });
 }
