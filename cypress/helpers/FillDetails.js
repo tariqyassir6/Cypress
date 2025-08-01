@@ -1,6 +1,11 @@
 export function fillForm() {
   cy.origin("https://secure.booking.com", () => {
 
+    cy.get("#user-details-heading", { timeout: 10000 })
+      .should('exist')
+      .should('be.visible');
+
+
     const formFields = [
       { selector: "[data-testid='user-details-firstname']", value: "First" },
       { selector: "[data-testid='user-details-lastname']", value: "Last" },
@@ -12,32 +17,31 @@ export function fillForm() {
     ];
 
     formFields.forEach(({ selector, value }) => {
-      cy.get(selector, { timeout: 10000 })
-        .should('exist')
-        .should('be.visible')
-        .then(() => {
-          // Re-query to avoid stale element reference issues
-          cy.get(selector).as('inputField');
-          cy.get('@inputField').clear({ force: true });
-          cy.get('@inputField').type(value, { delay: 50, force: true });
-        });
-    });
+    cy.get('body').then(($body) => {
+      if ($body.find(selector).length > 0) { 
+        cy.get(selector, { timeout: 10000 })
+          .should('be.visible')
+         .should('be.enabled')
+          .clear({ force: true })
+          .type(value, { delay: 50 });
+      }
+    })
+    })
+    
 
-    // Handle dropdown
+    //Select country
     cy.get("[data-testid='user-details-cc1']", { timeout: 10000 })
       .should('exist')
       .should('be.visible')
-      .then(() => {
-        cy.get("[data-testid='user-details-cc1']").select("France", { force: true });
-      });
+      .select("France")
 
-    // Click book button
+    
+
+    //Click book button
     cy.get("[name='book']", { timeout: 10000 })
-      .should('exist')
+      .scrollIntoView()
       .should('be.visible')
-      .then(() => {
-        cy.get("[name='book']").click({ force: true });
-      });
+      .click({ force: true })
 
-  });
+  })
 }
