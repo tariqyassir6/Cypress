@@ -16,7 +16,7 @@ export function fillForm() {
       cy.get('body').then(($body) => {
         const element = $body.find(selector);
         if (element.length > 0 && element.is(':visible')) {
-          cy.wrap(element).clear().type(value, { delay: 50 });
+          cy.wrap(element).type(value, { delay: 50 });
         } 
       })
     })

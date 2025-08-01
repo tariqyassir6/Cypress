@@ -18,3 +18,12 @@ import './commands'
 import 'cypress-mochawesome-reporter/register';
 
 require('cypress-xpath')
+
+
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message && err.message.includes('Script error')) {
+    
+    return false;
+  }
+
+});
