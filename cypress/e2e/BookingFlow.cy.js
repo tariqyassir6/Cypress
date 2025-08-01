@@ -53,7 +53,7 @@ describe('Flow testing', () => {
        
         fillForm()
 
-        //Confirm that Complete booking is visible
+        //Confirm that "Complete booking" is visible
         cy.origin("https://secure.booking.com", () => {
             cy.contains(" Complete booking ", { timeout: 20000 })
                 .should("be.visible")
