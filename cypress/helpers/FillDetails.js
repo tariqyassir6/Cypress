@@ -14,35 +14,39 @@ export function fillForm() {
           { selector: "[data-testid='phone-number-input']", value: "666666666" }
         ];
 
+        // ✅ Safely type in each field
         formFields.forEach(({ selector, value }) => {
           cy.get('body').then(($body) => {
             if ($body.find(selector).length > 0) {
               cy.get(selector, { timeout: 10000 })
                 .should('be.visible')
                 .should('be.enabled')
-                .clear({ force: true })
-                .type(value);
-            } else {
-              cy.log(`Skipping field: ${selector} (not found)`);
+                .as('inputField');
+              
+              cy.get('@inputField').clear({ force: true });
+              cy.get('@inputField').type(value); // ⬅️ no delay
             }
           });
         });
 
+        // ✅ Select country safely
         cy.get('body').then(($body) => {
-          const selectField = $body.find("[data-testid='user-details-cc1']");
-          if (selectField.length > 0 && selectField.is(':visible')) {
-            cy.wrap(selectField).select("France");
-          } else {
-            cy.log('Skipping country select (not found or not visible)');
+          if ($body.find("[data-testid='user-details-cc1']").length > 0) {
+            cy.get("[data-testid='user-details-cc1']", { timeout: 10000 })
+              .should('be.visible')
+              .as('countrySelect');
+            cy.get('@countrySelect').select("France");
           }
         });
 
+        // ✅ Click the book button safely
         cy.get('body').then(($body) => {
-          const button = $body.find("[name='book']");
-          if (button.length > 0 && button.is(':visible')) {
-            cy.wrap(button).scrollIntoView().click({ force: true });
-          } else {
-            cy.log('Skipping book button (not found or not visible)');
+          if ($body.find("[name='book']").length > 0) {
+            cy.get("[name='book']", { timeout: 10000 })
+              .should('be.visible')
+              .as('bookButton');
+            cy.get('@bookButton').scrollIntoView();
+            cy.get('@bookButton').click({ force: true });
           }
         });
       });
